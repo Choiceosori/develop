@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>발명 탐험대 팡팡!</title>
+  <meta name="description" content="초등학교 1학년을 위한 카드 놀이 · 대화형 발명 웹앱">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎈</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1><span class="balloon">🎈</span> 발명 탐험대 팡팡!</h1>
+    <label class="explorer">
+      <span>👤 탐험가 이름</span>
+      <input id="explorer" maxlength="10" placeholder="이름을 써요" autocomplete="off">
+    </label>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" role="tab" aria-selected="true" data-tab="cards">🧩 카드 발명기</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="chat">🤖 팡팡이</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="box">🎁 보물상자 <span id="boxCount" class="badge">0</span></button>
+  </nav>
+
+  <main>
+    <!-- 탭 1: 트리즈 카드 발명기 -->
+    <section id="cards" class="panel active" role="tabpanel">
+      <div class="step">
+        <h2><span class="num">1</span> 카드를 뽑아요</h2>
+        <div class="card-stage">
+          <div id="trizCard" class="triz-card">
+            <div class="face back"><span id="shuffleEmoji" class="shuffle-emoji">❓</span><p>어떤 카드가 나올까?</p></div>
+            <div class="face front" id="cardFront"></div>
+          </div>
+        </div>
+        <button id="drawBtn" class="big-btn yellow">🎲 카드 뽑기</button>
+      </div>
+
+      <div class="step locked" id="objStep">
+        <h2><span class="num">2</span> 물건을 골라요</h2>
+        <div id="objects" class="obj-grid"></div>
+        <form id="objForm" class="write-row hidden">
+          <input id="objInput" maxlength="12" placeholder="물건 이름 (예: 줄넘기)" autocomplete="off">
+          <button class="btn mint">좋아요!</button>
+        </form>
+      </div>
+
+      <div class="step locked" id="resultStep">
+        <h2><span class="num">3</span> 아이디어 완성!</h2>
+        <div class="equation" id="equation"></div>
+        <label class="field">📌 발명품 이름
+          <input id="ideaName" maxlength="24" autocomplete="off">
+        </label>
+        <label class="field">💡 어떤 물건인가요?
+          <textarea id="ideaDesc" rows="3" maxlength="120"></textarea>
+        </label>
+        <button id="saveCardIdea" class="big-btn pink">🎁 보물상자에 저장</button>
+      </div>
+
+      <details class="dex">
+        <summary>🃏 카드 8종 모두 보기</summary>
+        <div id="dexGrid" class="dex-grid"></div>
+      </details>
+    </section>
+
+    <!-- 탭 2: 발명 친구 팡팡이 -->
+    <section id="chat" class="panel" role="tabpanel">
+      <div class="chat-wrap">
+        <div id="chatLog" class="chat-log" aria-live="polite"></div>
+        <div id="choices" class="choices"></div>
+        <form id="writeForm" class="write-row hidden">
+          <input id="writeInput" maxlength="40" placeholder="여기에 써요 ✏️" autocomplete="off">
+          <button class="btn mint">보내기</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 보물상자 -->
+    <section id="box" class="panel" role="tabpanel">
+      <div id="boxEmpty" class="empty">
+        <div class="big-emoji">📦</div>
+        <p>아직 보물상자가 비어 있어요.<br>카드를 뽑거나 팡팡이와 이야기해서 발명품을 만들어 봐요!</p>
+      </div>
+      <div id="boxGrid" class="box-grid"></div>
+    </section>
+  </main>
+
+  <dialog id="drawDialog">
+    <form method="dialog" class="draw-head">
+      <strong>🖍️ 그림 그려서 완성하기</strong>
+      <button class="icon-btn" aria-label="닫기">✖️</button>
+    </form>
+    <canvas id="pad" width="600" height="450"></canvas>
+    <div class="palette" id="palette"></div>
+    <div class="draw-actions">
+      <button id="padClear" class="btn">🧽 모두 지우기</button>
+      <button id="padSave" class="btn pink">💾 저장하기</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
